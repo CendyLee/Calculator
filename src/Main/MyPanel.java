@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.event.*;
 public class MyPanel extends JPanel implements ActionListener {
 	private JTextField textfield;
-	private char[] temp;
 	private String[] name= {"9","8","7","+","6","5","4","-","3","2","1","*","0","00","C","/","(",")",".","="};
 	public String showString="";
 	private String inputString="";
@@ -45,7 +44,7 @@ public class MyPanel extends JPanel implements ActionListener {
 		}
 		else if(btnLable=="=")
 		{
-		   showString=CalculateCore.calculate(inputString);
+		   showString=CalculateCore.calculate(inputString);	
 		   textfield.setText(showString);
 		}
 		

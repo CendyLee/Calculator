@@ -11,9 +11,12 @@ public class MyCal {
 	          MyPanel mainpanel=new MyPanel(); 
 	          JTextField text=new JTextField("0");
         //设置基本属性             
-              mainframe.setFrameProperty("MyCalculator", 285, 390,null);           
+              mainframe.setFrameProperty("MyCalculator", 278, 380,null);           
               mainpanel.setPanelProperty(new Rectangle(10,90,250,250), new GridLayout(5,4), new Color(242,242,239));                                              
-              text.setBounds(10, 10, 250, 70);  
+              text.setBounds(10, 10, 250, 70); 
+              text.setEditable(false);
+              text.setBackground(Color.WHITE);
+              text.setFont(new Font("宋体",Font.BOLD,16));
               //获取到计算器的文本域
               mainpanel.getTextField(text);
         //添加      

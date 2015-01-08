@@ -7,12 +7,12 @@ public class CalculateCore {
 			return "0";
 		}
 		String[] stra=strToStringArray(inputStr); 	
-		String[] strb=changeTo(stra);		
+		String[] strb=changeTo(stra);
 		return calculateStr(strb);	
 	}
 	private static boolean isOperator(String a)
 	{
-		if(a.equals("+")||a.equals("-")||a.equals("*")||a.equals("/")||a.equals("(")||a.equals(""))
+		if(a.equals("+")||a.equals("-")||a.equals("*")||a.equals("/")||a.equals("(")||a.equals(")"))
 		{
 			return true;
 		}
@@ -23,6 +23,7 @@ public class CalculateCore {
 	{	
 		String[] strarry=str.split("");
 		String[] strtemp=new String[100];	
+		//数字累加器    如   '8'+'5'='85'
 		String numstr="";
 		int i,j=0,k;
 		for(i=0;i<strarry.length;i++)
@@ -33,10 +34,24 @@ public class CalculateCore {
 			}
 			else
 			{
+				//如果是括号开头  括号直接进入输出列
+				if(strarry[i].equals("("))
+				{
+					strtemp[j]=strarry[i];
+					j++;
+				}
+				else if(numstr.equals(""))
+				{
+					strtemp[j]=strarry[i];
+					j++;
+				}
+				else 
+				{
 				strtemp[j]=numstr;
 				numstr="";
 				strtemp[j+1]=strarry[i];
 				j+=2;
+				}
 			}			
 		}
 		strtemp[j]=numstr;
@@ -52,18 +67,12 @@ public class CalculateCore {
 			strtemp2[m]=strtemp[m];
 		}
 		return strtemp2;
+		
+		//return strarry;
 	}
 	private static String compare(String a,String b)    //比较a和b的优先级      a大则返回> b大返回< 相等返回"="
-	{
-		if(a.equals("(")&&!b.equals("("))
-		{
-			return ">";
-		}
-		else if(b.equals("(")&&!a.equals("("))
-		{
-			return "<";
-		}
-		else if((a.equals("*")||a.equals("/"))&&(b.equals("+")||b.equals("-")))
+	{                                                          
+		if((a.equals("*")||a.equals("/"))&&(b.equals("+")||b.equals("-")))
 		{
 			return ">";
 		}
@@ -98,6 +107,24 @@ public class CalculateCore {
 				top++;
 			}
 			//如果栈顶操作符的优先级小于当前取得元素，则入栈
+			else if(strinChar[i].equals("("))
+			{
+				//如果是左括号  入栈
+				stack[top]=strinChar[i];
+				top++;
+			}
+			else if(strinChar[i].equals(")"))
+			{
+			    //如果是右括号 出栈直到左括号
+				while(!stack[top-1].equals("("))
+				{
+					strout[num]=stack[top-1];
+					num++;
+					top--;
+				}
+				//左括号出栈但不进入输出队列
+				top--;
+			}
 			else if(compare(strinChar[i],stack[top-1]).equals(">"))
 			{
 				//操作符入栈
@@ -107,16 +134,15 @@ public class CalculateCore {
 			
 			else
 			{
-				//如果栈不为空 并且 当前取得的运算符的优先级小于或者等于栈顶运算符的优先级
-				while(top!=0&&(compare(strinChar[i],stack[top-1]).equals("<")||compare(strinChar[i],stack[top-1]).equals("=")))
+				//如果栈不为空 并且 当前取得的运算符的优先级小于或者等于栈顶运算符的优先级 进入输出队列
+		while(top!=0&&!stack[top-1].equals("(")&&(compare(strinChar[i],stack[top-1]).equals("<")||compare(strinChar[i],stack[top-1]).equals("=")))
 				{
 					strout[num]=stack[top-1];
 					top--;
 					num++;
 				}
 				stack[top]=strinChar[i];
-				top++;
-							
+				top++;							
 			}			
 		}
 		while(top!=0)
@@ -130,7 +156,6 @@ public class CalculateCore {
 	}	
 	private static String calculateStr(String[] str)
 	{
-		String result="";
 		String[] stack=new String[100];
 		int i,top=0;
 		double num1,num2,tempresult;

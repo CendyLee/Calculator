@@ -10,5 +10,6 @@ public class MyFrame extends JFrame {
     	 this.setSize(width, height);
     	 this.mycontainer.setLayout(manager);
     	 this.setLocationRelativeTo(null);
+    	 this.setResizable(false);
      }
 }
